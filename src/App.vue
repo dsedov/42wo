@@ -9,7 +9,6 @@
             <v-text-field
             v-model="search_string"
             label="Search"
-            outlined
             clearable
           ></v-text-field>
           </v-col>
@@ -23,13 +22,9 @@
         transition="fade-transition"
         >
         <v-row>
-          <v-col
-            v-for="item in items"
-            :key="item.alt"
+          <v-col xs="5" sm="4" md="3" v-for="item in items" :key="item.alt" >
             
-          >
-            
-            <v-card width="200">
+            <v-card flat>
               <v-card-title style="font-size:14px; padding:0px;padding-left:10px;text-overflow: ellipsis;max-width: 180px;overflow: hidden;white-space: nowrap;">{{ item.name }}</v-card-title>
               <v-img :src="item.src" width="100%"></v-img>
             </v-card>
@@ -50,21 +45,35 @@
     computed:{
       items() {
         let ss = this.search_string.toLocaleLowerCase()
+        var result = [];
+        var remainder = 0;
+        var i;
         if(this.search_string.length == 0){
           return this.$_.sample(this.animals, 10)
         } else if(this.search_string.length == 1){ 
-          var result = [];
-          for(var i = 0; i < this.animals.length; i++){
+          result = [];
+          for(i = 0; i < this.animals.length; i++){
             if(this.animals[i].name.toLowerCase().startsWith(ss)){
               result.push(this.animals[i])
             }
           }
+          remainder = result.length % 5
+          for(i = 1; i < remainder; i++){
+            result.push({name:'', src:''})
+          }
           return result
         } else {
-
-          
-          return this.$_.sample(this.animals, 10)
-          
+          result = [];
+          for(i = 0; i < this.animals.length; i++){
+            if(this.animals[i].name.toLowerCase().includes(ss)){
+              result.push(this.animals[i])
+            }
+          }
+          remainder = result.length % 5
+          for(i = 1; i < remainder; i++){
+            result.push({name:'', src:''})
+          }
+          return result
         }
       }
     }
