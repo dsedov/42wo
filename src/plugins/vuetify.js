@@ -5,4 +5,7 @@ Vue.use(Vuetify);
 
 export default new Vuetify({
     theme: { dark: true },
+    font: {
+        family: 'Gill Sans Extrabold'
+      }
 });
